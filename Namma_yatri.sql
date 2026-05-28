@@ -3282,19 +3282,22 @@ select * from duration;
 
 select * from payment;
 ---------------------------------------------------------------
-select count(*) from trips;
+select count(*) from trips; --983
 
-select count(*) from trips_details4 where end_ride=1;
+select count(*) from trips_details4 where end_ride=1; --983
 ---------------------------------------------------------------
+ --Checking if tripid is the primary key
 select tripid, count(tripid) cnt from trips_details4
 group by tripid
 having count(tripid)>1;
+
+--Output: nothing shows in tripid and cnt columns
 ---------------------------------------------------------------
 --Total trips
-select count(distinct tripid) from trips_details4;
+select count(distinct tripid) from trips_details4; --2161
 ---------------------------------------------------------------
 --Total drivers
-select count(distinct driverid) total_drivers from trips;
+select count(distinct driverid) total_drivers from trips; --30
 ---------------------------------------------------------------
 -- Total earnings
 select sum(fare) fare from trips;
