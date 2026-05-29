@@ -3300,42 +3300,45 @@ select count(distinct tripid) from trips_details4; --2161
 select count(distinct driverid) total_drivers from trips; --30
 ---------------------------------------------------------------
 -- Total earnings
-select sum(fare) fare from trips;
+select sum(fare) fare from trips; --751343
 ---------------------------------------------------------------
 -- Total Completed trips
 select sum(end_ride) trips from trips_details4;
 --OR
-select count (distinct tripid) trips from trips;
+select count (distinct tripid) trips from trips; --983
 ---------------------------------------------------------------
 --Total searches
-select sum(searches) searches from trips_details4;
+select sum(searches) searches from trips_details4; --2161
 ---------------------------------------------------------------
 --Total searches which got estimate
-select sum(searches_got_estimate) searches from trips_details4;
+select sum(searches_got_estimate) searches from trips_details4; --1758
 ---------------------------------------------------------------
 --Total searches for quotes
-select sum(searches_for_quotes) searches from trips_details4;
+select sum(searches_for_quotes) searches from trips_details4; --1455
 ---------------------------------------------------------------
 --Total searches which got quotes
-select sum(searches_got_quotes) searches from trips_details4;
+select sum(searches_got_quotes) searches from trips_details4; --1277
 ---------------------------------------------------------------
 --Total driver cancelled
-select count(*) - sum(driver_not_cancelled) searches from trips_details4;
+select count(*) - sum(driver_not_cancelled) searches from trips_details4; 
+
+--sum(driver_not_cancelled) --1140
+--select count(*) - sum(driver_not_cancelled) -- 1021
 ---------------------------------------------------------------------------
 --Total otp entered
-select sum(otp_entered) searches from trips_details4;
+select sum(otp_entered) searches from trips_details4; --983
 ---------------------------------------------------------------------------
 --Total end ride
-select sum(end_ride) searches from trips_details4;
+select sum(end_ride) searches from trips_details4; --983
 ---------------------------------------------------------------------------
 --Average distance per trip
-select avg(distance) from trips;
+select avg(distance) from trips; --14
 ---------------------------------------------------------------------------
 --Average fare per trip
-select avg(fare) from trips;
+select avg(fare) from trips; --764
 ---------------------------------------------------------------------------
 --Distance travelled
-select sum(distance) from trips;
+select sum(distance) from trips; --14148
 ---------------------------------------------------------------------------
 --Which is the most used payment method 
 select a.method from payment a inner join
@@ -3345,12 +3348,16 @@ group by faremethod
 order by count(distinct tripid) desc) b
 
 on a.id = b.faremethod;
+
+-- 4 -> credit card
 ---------------------------------------------------------------------------
 --The highest payment was made through which instrument
 select a.method from payment a inner join
 (select top 1 * from trips
 order by fare desc) b
 on a.id = b.faremethod;
+
+-- 1500 -> credit card
 
 --OR
 
@@ -3368,6 +3375,8 @@ from
 group by loc_from, loc_to
 )a)b
 where rnk=1;
+
+-- 35,5 and 16,21 -> 5 trips
 -----------------------------------------------------------------------------
 --Top 5 earning drivers
 select * from
@@ -3376,6 +3385,8 @@ from
 (select driverid, sum(fare) fare from trips
 group by driverid)b)c
 where rnk<6;
+
+-- 12, 8, 21, 24, 30
 -----------------------------------------------------------------------------
 --Which duration had more trips
 select * from
