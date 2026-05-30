@@ -3395,6 +3395,8 @@ from
 (select duration, count(distinct tripid) cnt from trips
 group by duration)b)c
 where rnk=1;
+
+-- duration=1, cnt=53
 -----------------------------------------------------------------------------
 --Which driver , customer pair had more orders (get pair of driver and a customer who has travelled the most in a pair)
 select * from
@@ -3404,9 +3406,11 @@ from
 group by driverid, custid
 )a)b
 where rnk=1;
+
+-- 28,15 and 17,96 -> cnt=4
 ------------------------------------------------------------------------------
 --Search to estimate rate
-select sum(searches_got_estimate)*100.0 / sum(searches) from trips_details4;
+select sum(searches_got_estimate)*100.0 / sum(searches) from trips_details4; --81%
 -------------------------------------------------------------------------------
 --Which area got highest trips in which duration
 select * from
@@ -3439,6 +3443,7 @@ from
 (select loc_from, sum(fare) fare from trips
 group by loc_from)b)c
 where rnk=1;
+-- 6 -> 30295
 
 select * from (select *, rank() over(order by can desc) rnk
 from
@@ -3447,6 +3452,7 @@ select loc_from, count(*) - sum(driver_not_cancelled) can
 from  trips_details4
 group by loc_from)b)c
 where rnk=1;
+-- 1 -> 43
 
 select * from (select *, rank() over(order by can desc) rnk
 from
@@ -3455,6 +3461,7 @@ select loc_from, count(*) - sum(customer_not_cancelled) can
 from  trips_details4
 group by loc_from)b)c
 where rnk=1;
+-- 4 -> 40
 -----------------------------------------------------------------------
 --Which duration got the highest trips and fares
 select * from
@@ -3463,6 +3470,7 @@ from
 (select duration, sum(fare) fare from trips
 group by duration)b)c
 where rnk=1;
+-- 1 -> 45019
 
 select * from
 (select *, rank() over(order by cnt desc) rnk
